@@ -91,7 +91,17 @@ class ZombieView: UIView {
                 }
             }
         }
-        
+
+        for x in 0 ..< XMAX {
+            baseBoard.cell[x][0] = EDGE
+            baseBoard.cell[x][YMAX-1] = EDGE
+        }
+
+        for y in 0 ..< YMAX {
+            baseBoard.cell[0][y] = EDGE
+            baseBoard.cell[XMAX-1][y] = EDGE
+        }
+
         refresh(true)
     }
     
@@ -120,22 +130,21 @@ class ZombieView: UIView {
             
             for x in 1 ..< XMAX - 1 {
                 for y in 1 ..< YMAX - 1 {
-                    currentBoard.cell[x][y] = (
-                        tempBoard.cell[x-1][y-1] + tempBoard.cell[x][y-1] + tempBoard.cell[x+1][y-1] +
-                            tempBoard.cell[x-1][y  ] + tempBoard.cell[x][y  ] + tempBoard.cell[x+1][y  ] +
-                            tempBoard.cell[x-1][y+1] + tempBoard.cell[x][y+1] + tempBoard.cell[x+1][y+1] ) / 9
+                    if currentBoard.cell[x][y] == EDGE { continue }
+                    
+                    var total:Int = 0
+                    var count:Int = 0
+                    
+                    for dx in -1 ... 1 {
+                        for dy in -1 ... 1 {
+                            let v = tempBoard.cell[x+dx][y+dy]
+                            if v != EDGE { total += v; count += 1 }
+                        }
+                    }
+                    
+                    if count > 0 { currentBoard.cell[x][y] = total / count }
                 }
             }
-        }
-        
-        for x in 0 ..< XMAX {
-            currentBoard.cell[x][0] = EDGE
-            currentBoard.cell[x][YMAX-1] = EDGE
-        }
-        
-        for y in 0 ..< YMAX {
-            currentBoard.cell[0][y] = EDGE
-            currentBoard.cell[XMAX-1][y] = EDGE
         }
     }
     
@@ -317,7 +326,20 @@ class ZombieView: UIView {
             }
         }
     }
+
+    var oldPt = Position(EMPTY,EMPTY)
     
+    func setTerrainCellToEdge(_ x:Int, _ y:Int) {
+        while true {
+            if isLegalPosition(oldPt.x,oldPt.y) { baseBoard.cell[oldPt.x][oldPt.y] = EDGE }
+            if oldPt.isSame(Position(x,y)) { break }
+            
+            let dx = x - oldPt.x
+            let dy = y - oldPt.y
+            if abs(dx) > abs(dy) { oldPt.x += dx > 0 ? 1 : -1 } else { oldPt.y += dy > 0 ? 1 : -1 }
+        }
+    }
+
     // MARK:-
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -327,10 +349,13 @@ class ZombieView: UIView {
             let x = Int(pt.x / cellSize.width)
             let y = Int(pt.y / cellSize.height)
             if x == 0 || y == 0 || x == XMAX-1 || y == YMAX-1 { return }
+
+            if oldPt.x == EMPTY { oldPt.x = x; oldPt.y = y }
             
             switch mode {
             case 1 : alterTerrainCell(x,y,-1)
             case 2 : alterTerrainCell(x,y,+1)
+            case 3 : setTerrainCellToEdge(x,y)
             default :    // move
                 let dStart = hypotf( Float(x - startPosition.x), Float(y - startPosition.y))
                 let dEnd = hypotf( Float(x - endPosition.x), Float(y - endPosition.y))
@@ -355,6 +380,7 @@ class ZombieView: UIView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if mode > 0 { refresh(true) }
+        oldPt.x = EMPTY
     }
 }
 

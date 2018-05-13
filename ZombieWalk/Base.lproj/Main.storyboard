@@ -39,11 +39,12 @@
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1MC-c1-BZG">
-                                <rect key="frame" x="342" y="1316" width="173" height="29"/>
+                                <rect key="frame" x="342" y="1316" width="231" height="29"/>
                                 <segments>
                                     <segment title="Move"/>
                                     <segment title="Lighter"/>
                                     <segment title="Darker"/>
+                                    <segment title="Edge"/>
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
