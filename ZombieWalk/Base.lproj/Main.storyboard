@@ -32,19 +32,36 @@
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2z7-Yz-U2U">
                                 <rect key="frame" x="935" y="1316" width="39" height="30"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Reset"/>
                                 <connections>
                                     <action selector="resetButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kpc-rA-SYW"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1MC-c1-BZG">
+                                <rect key="frame" x="342" y="1316" width="173" height="29"/>
+                                <segments>
+                                    <segment title="Move"/>
+                                    <segment title="Lighter"/>
+                                    <segment title="Darker"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="segmentChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="9rr-Ha-Pr7"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2z7-Yz-U2U" secondAttribute="trailing" constant="50" id="9ms-Z4-SI9"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1MC-c1-BZG" secondAttribute="trailing" constant="20" symbolic="YES" id="EDq-0i-chd"/>
                             <constraint firstItem="Zep-sA-cEU" firstAttribute="top" secondItem="cAL-Jh-pWK" secondAttribute="bottom" constant="26" id="Poa-OQ-mKH"/>
                             <constraint firstItem="Zep-sA-cEU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="22" id="SAy-wf-7bW"/>
+                            <constraint firstItem="1MC-c1-BZG" firstAttribute="leading" secondItem="Zep-sA-cEU" secondAttribute="trailing" constant="63" id="Wgq-w2-IGh"/>
+                            <constraint firstItem="2z7-Yz-U2U" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="XOM-jx-OTI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cAL-Jh-pWK" secondAttribute="bottom" constant="76" id="kXf-c2-Ntf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cAL-Jh-pWK" secondAttribute="trailing" constant="20" id="mAu-c4-Ij3"/>
+                            <constraint firstItem="1MC-c1-BZG" firstAttribute="top" secondItem="cAL-Jh-pWK" secondAttribute="bottom" constant="26" id="p6T-mJ-fwG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2z7-Yz-U2U" secondAttribute="bottom" constant="20" id="pJF-fQ-eR4"/>
                             <constraint firstItem="cAL-Jh-pWK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="22" id="pVR-VX-1Iv"/>
                             <constraint firstItem="cAL-Jh-pWK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="wUQ-ex-Kkl"/>
@@ -53,12 +70,13 @@
                     </view>
                     <connections>
                         <outlet property="SmoothingSider" destination="Zep-sA-cEU" id="w3r-Mf-1zZ"/>
+                        <outlet property="segmentControl" destination="1MC-c1-BZG" id="MUP-L7-ysx"/>
                         <outlet property="zombieView" destination="cAL-Jh-pWK" id="YJw-LU-Vnv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="117.98561151079137" y="118.70503597122303"/>
+            <point key="canvasLocation" x="117.77343749999999" y="118.59443631039531"/>
         </scene>
     </scenes>
 </document>

@@ -46,6 +46,7 @@ var tempBoard = Board()
 var startPosition = Position()
 var endPosition = Position()
 var smoothAmount = Int()
+var mode:Int = 0
 
 // MARK:-
 
@@ -61,19 +62,19 @@ class ZombieView: UIView {
     
     // MARK:-
     
+    func isLegalPosition(_ x:Int, _ y:Int) -> Bool { return x >= 0 && x < XMAX &&  y >= 0 && y < YMAX }
+    
     func reset() {
+        func setbaseBoardHeight(_ x:Int, _ y:Int, _ value:Int) {
+            if isLegalPosition(x,y) { baseBoard.cell[x][y] = value }
+        }
+
         startPosition = Position(2,2)
         endPosition = Position(XMAX-3,YMAX-3)
         
         for x in 0 ..< XMAX {
             for y in 0 ..< YMAX {
                 baseBoard.cell[x][y] = TERRAIN
-            }
-        }
-        
-        func setbaseBoardHeight(_ x:Int, _ y:Int, _ value:Int) {
-            if x >= 0 && x < XMAX && y >= 0 && y < YMAX {
-                baseBoard.cell[x][y] = value
             }
         }
         
@@ -91,20 +92,24 @@ class ZombieView: UIView {
             }
         }
         
-        refresh()
+        refresh(true)
     }
+    
+    func setMode(_ nMode:Int) { mode = nMode }
     
     // MARK:-
     
-    func refresh() {
+    func refresh(_ reCalcPath:Bool) {
         applySmooth()
-        findEasiestPath()
+        
+        if reCalcPath { findEasiestPath() }
+        
         setNeedsDisplay()
     }
     
     func setSmoothAmount(_ ratio:Float) {
         smoothAmount = Int(ratio * 10)
-        refresh()
+        refresh(true)
     }
     
     func applySmooth() {
@@ -137,7 +142,7 @@ class ZombieView: UIView {
     // MARK:-
     
     var pathFound = Bool()
-
+    
     func findEasiestPath() {
         var lowest:Int = 35000
         var newPosition = Position()
@@ -294,6 +299,27 @@ class ZombieView: UIView {
     
     // MARK:-
     
+    func alterTerrainCell(_ x:Int, _ y:Int, _ delta:Int) {
+        func alterBaseBoardHeight(_ x:Int, _ y:Int, _ delta:Int) {
+            if isLegalPosition(x,y) {
+                var value = baseBoard.cell[x][y] + delta * 10
+                
+                if value < TERRAIN { value = TERRAIN } else
+                    if value > TERRAIN + MAX_HEIGHT { value = TERRAIN + MAX_HEIGHT }
+                
+                baseBoard.cell[x][y] = value
+            }
+        }
+
+        for m in -2 ... 2 {
+            for n in -2 ... 2 {
+                alterBaseBoardHeight(x+m,y+n,delta * 3)
+            }
+        }
+    }
+    
+    // MARK:-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let pt = touch.location(in: self)
@@ -302,20 +328,33 @@ class ZombieView: UIView {
             let y = Int(pt.y / cellSize.height)
             if x == 0 || y == 0 || x == XMAX-1 || y == YMAX-1 { return }
             
-            let dStart = hypotf( Float(x - startPosition.x), Float(y - startPosition.y))
-            let dEnd = hypotf( Float(x - endPosition.x), Float(y - endPosition.y))
-            
-            if dStart < dEnd {
-                startPosition.x = x
-                startPosition.y = y
+            switch mode {
+            case 1 : alterTerrainCell(x,y,-1)
+            case 2 : alterTerrainCell(x,y,+1)
+            default :    // move
+                let dStart = hypotf( Float(x - startPosition.x), Float(y - startPosition.y))
+                let dEnd = hypotf( Float(x - endPosition.x), Float(y - endPosition.y))
+                
+                if dStart < dEnd {
+                    startPosition.x = x
+                    startPosition.y = y
+                }
+                else {
+                    endPosition.x = x
+                    endPosition.y = y
+                }
             }
-            else {
-                endPosition.x = x
-                endPosition.y = y
-            }
             
-            refresh()
+            refresh(mode == 0)
         }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touchesBegan(touches, with:event)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if mode > 0 { refresh(true) }
     }
 }
 
