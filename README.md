@@ -14,8 +14,8 @@ next steps:\
 5. add the human player, controlled by movement widgets (or maybe tilt)\
 6. more zombies,  who update their path as necessary..
 
-Note: added segment Control with Move, Lighter and Darker.
-Move affects the endpoints as before.
+Note: added segment Control with Move, Lighter and Darker.\
+Move affects the endpoints as before.\
 Lighter, Darker alter the terrain cells you touch.
 
 ![Screenshot](screenshot.png)
