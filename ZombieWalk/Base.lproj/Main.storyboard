@@ -44,7 +44,7 @@
                                     <segment title="Move"/>
                                     <segment title="Lighter"/>
                                     <segment title="Darker"/>
-                                    <segment title="Edge"/>
+                                    <segment title="Wall"/>
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
