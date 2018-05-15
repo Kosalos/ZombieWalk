@@ -18,5 +18,13 @@ Note: added segment Control with Move, Lighter and Darker.\
 Move affects the endpoints as before.\
 Lighter, Darker alter the terrain cells you touch.
 
+** Added player carries a lamp.
+Electricity has gone out.
+Human player carries a lamp to explore the office (draw some walls to denote several rooms).
+Zombies will be standing still in the dark, but will start to chase when they see the lamp.
+Maybe after you run away, they continue to walk for awhile in the current direction.
+Or maybe, even in the dark, they can hear you walking (if not obscured by a wall), and advance slowly.
+The un-even terrian effect can by used to denote office furniture, or stairs..
+
 ![Screenshot](screenshot.png)
 
