@@ -62,7 +62,7 @@ class ZombieView: UIView {
     
     // MARK:-
     
-    func isLegalPosition(_ x:Int, _ y:Int) -> Bool { return x >= 0 && x < XMAX &&  y >= 0 && y < YMAX }
+    func isLegalPosition(_ x:Int, _ y:Int) -> Bool { return x > 0 && x < XMAX-1 &&  y > 0 && y < YMAX-1 }
     
     func reset() {
         func setbaseBoardHeight(_ x:Int, _ y:Int, _ value:Int) {
@@ -310,7 +310,7 @@ class ZombieView: UIView {
     
     func alterTerrainCell(_ x:Int, _ y:Int, _ delta:Int) {
         func alterBaseBoardHeight(_ x:Int, _ y:Int, _ delta:Int) {
-            if isLegalPosition(x,y) {
+            if isLegalPosition(x,y) && baseBoard.cell[x][y] != EDGE {
                 var value = baseBoard.cell[x][y] + delta * 10
                 
                 if value < TERRAIN { value = TERRAIN } else
