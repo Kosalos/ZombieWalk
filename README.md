@@ -25,6 +25,3 @@ Zombies will be standing still in the dark, but will start to chase when they se
 Maybe after you run away, they continue to walk for awhile in the current direction.
 Or maybe, even in the dark, they can hear you walking (if not obscured by a wall), and advance slowly.
 The un-even terrian effect can by used to denote office furniture, or stairs..
-
-![Screenshot](screenshot.png)
-
